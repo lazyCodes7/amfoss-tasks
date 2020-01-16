@@ -1,0 +1,16 @@
+#paddle1 {
+    position:absolute;left:0px;top:460px;width:30px;height:150px;background-color:white; border-radius: 0px;
+}
+
+#paddle2 {
+    position:absolute;right:0px;top:460px;width:30px;height:150px;background-color:white; border-radius: 0px;
+}
+
+#ball {
+    position:absolute;left:820px;top:510px;width:25px;height:25px;background-color: white;border-radius:0px%
+}
+
+body {
+    background-color:black;
+}
+
