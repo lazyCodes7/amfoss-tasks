@@ -1,118 +1,133 @@
-const canvas = document.getElementById("pong");
-const ctx = canvas.getContext('2d');
-const ball = {
-    x : canvas.width/2,
-    y : canvas.height/2,
-    radius : 10,
-    velocityX : 5,
-    velocityY : 5,
-    speed : 7,
-    color : "WHITE"
-}
-const user = {
-    x : 0, 
-    y : (canvas.height - 100)/2, 
-    width : 10,
-    height : 100,
-    score : 0,
-    color : "WHITE"
-}
-const com = {
-    x : canvas.width - 10, 
-    y : (canvas.height - 100)/2, 
-    width : 10,
-    height : 100,
-    score : 0,
-    color : "WHITE"
-}
-const net = {
-    x : (canvas.width - 2)/2,
-    y : 0,
-    height : 10,
-    width : 2,
-    color : "WHITE"
-}
-function drawRect(x, y, w, h, color){
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, w, h);
-}
-function drawArc(x, y, r, color){
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.arc(x,y,r,0,Math.PI*2,true);
-    ctx.closePath();
-    ctx.fill();
-}
-canvas.addEventListener("mousemove", getMousePos);
-function getMousePos(evt){
-    let rect = canvas.getBoundingClientRect();
-    user.y = evt.clientY - rect.top - user.height/2;
-}
-function resetBall(){
-    ball.x = canvas.width/2;
-    ball.y = canvas.height/2;
-    ball.velocityX = -ball.velocityX;
-    ball.speed = 7;
-}
-function drawNet(){
-    for(let i = 0; i <= canvas.height; i+=15){
-        drawRect(net.x, net.y + i, net.width, net.height, net.color);
-    }
-}
-function drawText(text,x,y){
-    ctx.fillStyle = "#FFF";
-    ctx.font = "75px fantasy";
-    ctx.fillText(text, x, y);
-}
-function collision(b,p){
-    p.top = p.y;
-    p.bottom = p.y + p.height;
-    p.left = p.x;
-    p.right = p.x + p.width;
-    b.top = b.y - b.radius;
-    b.bottom = b.y + b.radius;
-    b.left = b.x - b.radius;
-    b.right = b.x + b.radius;
-    return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
-}
-function update(){
-    if( ball.x - ball.radius < 0 ){
-        com.score++;
-        resetBall();
-    }else if( ball.x + ball.radius > canvas.width){
-        user.score++;
-        resetBall();
-    }
-    ball.x += ball.velocityX;
-    ball.y += ball.velocityY;
-    com.y += ((ball.y - (com.y + com.height/2)))*0.1;
-    if(ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){
-        ball.velocityY = -ball.velocityY;
-    }
-    let player = (ball.x + ball.radius < canvas.width/2) ? user : com;
-    if(collision(ball,player)){
-        let collidePoint = (ball.y - (player.y + player.height/2));
-        collidePoint = collidePoint / (player.height/2);
-        let angleRad = (Math.PI/4) * collidePoint;
-        let direction = (ball.x + ball.radius < canvas.width/2) ? 1 : -1;
-        ball.velocityX = direction * ball.speed * Math.cos(angleRad);
-        ball.velocityY = ball.speed * Math.sin(angleRad);
-        ball.speed += 0.1;
-    }
-}
-function render(){
-    drawRect(0, 0, canvas.width, canvas.height, "#000");
-    drawText(user.score,canvas.width/4,canvas.height/5);
-    drawText(com.score,3*canvas.width/4,canvas.height/5);
-    drawNet();
-    drawRect(user.x, user.y, user.width, user.height, user.color);
-    drawRect(com.x, com.y, com.width, com.height, com.color);
-    drawArc(ball.x, ball.y, ball.radius, ball.color);
-}
-function game(){
-    update();
-    render();
-}
-let framePerSecond = 50;
-let loop = setInterval(game,1000/framePerSecond);
+var paddleHeight = 150;
+var paddleWidth = 30;
+var ballRadius = 25;
+var halfPaddleHeight = paddleHeight / 2;
+var speedOfPaddle1 = 0;
+var positionOfPaddle1 = 220;
+var speedOfPaddle2 = 0;
+var positionOfPaddle2 = 220;
+var topPositionOfBall = 210;
+var leftPositionOfBall = 520;
+var topSpeedOfBall = 100;
+var leftSpeedOfBall = 0;
+var score1 = 0;
+var score2 = 0;
+// We will keep a list of variables to keep track of all the important information.
+// each keeps track of the corresponding top and left values, so that when the variables change, so do the style values
+	
+//7. gives a random left and top speed to the ball.
+//If side is negative, the ball will move to the left. If side is positive ball will move to the right. 
+// Next, the speed of the ball is set by random values
+function startBall() {
+	topPositionOfBall = 210;
+	leftPositionOfBall = 520;
+	if (Math.random() < 0.5) {
+		var side = 1
+	} else {
+		var side = -1
+	}
+	topSpeedOfBall = Math.random() * 6 + 5;
+	leftSpeedOfBall = side * (Math.random() * 6 + 5);
+};
 
+//2. keep track of the up and down values 
+document.addEventListener('keydown', function (e) {
+     if (e.keyCode == 87 || e.which == 87) { // W key
+      speedOfPaddle1 = -10;
+     }
+     if (e.keyCode == 83 || e.which == 83) { // S Key
+      speedOfPaddle1 = 10;
+     }
+     if (e.keyCode == 38 || e.which == 38) { // up arrow
+      speedOfPaddle2 = -10;
+     }
+     if (e.keyCode == 40 || e.which == 40) { // down arrow
+      speedOfPaddle2 = 10;
+     }
+}, false);
+
+// 3.stops the paddle when key is let go
+document.addEventListener('keyup', function (e) {
+	if (e.keyCode == 87 || e.which == 87) {
+		speedOfPaddle1 = 0;
+	}
+	if (e.keyCode == 83 || e.which == 83) {
+		speedOfPaddle1 = 0;
+	}
+	if (e.keyCode == 38 || e.which == 38) {
+		speedOfPaddle2 = 0;
+	}
+	if (e.keyCode == 40 || e.which == 40) {
+		speedOfPaddle2 = 0;
+	}
+}, false);
+
+// function print() {
+// 	console.log(positionOfPaddle1);
+// }
+
+//4. This function gets called 60 times per second 
+window.setInterval(function show() {
+
+	//stops paddles going beyond window
+	// if the paddle position is 150 (this number was chosen to keep space for the title and scores) from the top of the screen,
+	//  don’t change the position of the paddle. If the paddle position is a paddle length away from the bottom of the screen, then stop the paddle
+	positionOfPaddle1 += speedOfPaddle1;
+	positionOfPaddle2 += speedOfPaddle2;
+
+	// 6. update ball position based on ball speed, this happens onload (script tags in html)
+	// see Math.random function
+	topPositionOfBall += topSpeedOfBall;
+	leftPositionOfBall += leftSpeedOfBall;
+
+// 6.if the paddle is 1px away from edge of screen stop the paddle from moving beyond that point
+	if (positionOfPaddle1 <= 1) {
+		positionOfPaddle1 = 1;
+	}
+	if (positionOfPaddle2 <= 1) {
+		positionOfPaddle2 = 1;
+	}
+	if (positionOfPaddle1 >= window.innerHeight - paddleHeight) {
+		positionOfPaddle1 = window.innerHeight - paddleHeight;
+	}
+	if (positionOfPaddle2 > window.innerHeight - paddleHeight) {
+		positionOfPaddle2 = window.innerHeight - paddleHeight;
+	}
+	//8. If it bounces off the top of the screen, the top speed will become negative and it will go in the other direction
+	if (topPositionOfBall <= 10 || topPositionOfBall >= window.innerHeight - ballRadius) {
+		topSpeedOfBall = -topSpeedOfBall
+	}
+
+	// 9. reflect off paddle
+	if (leftPositionOfBall <= paddleWidth) {
+		if (topPositionOfBall > positionOfPaddle1 && topPositionOfBall < positionOfPaddle1 + paddleHeight) {
+			leftSpeedOfBall = -leftSpeedOfBall;
+		} else {
+			score2++;
+			var audio = new Audio('audio/applause2.wav')		
+			audio.play()
+			startBall();
+		}
+	}
+	if (leftPositionOfBall >= window.innerWidth - ballRadius - paddleWidth) {
+		if (topPositionOfBall > positionOfPaddle2 && topPositionOfBall < positionOfPaddle2 + paddleHeight) {
+			leftSpeedOfBall = -leftSpeedOfBall
+		} else {
+			score1++
+			var audio = new Audio('audio/applause2.wav')		
+			audio.play()
+			startBall();
+		}
+	}
+
+	// 5. change the top px value of paddle
+	//change the left 
+	document.getElementById("paddle1").style.top = (positionOfPaddle1) + "px";
+	document.getElementById("paddle2").style.top = (positionOfPaddle2) + "px";
+
+
+	document.getElementById("ball").style.top = (topPositionOfBall) + "px";
+	document.getElementById("ball").style.left = (leftPositionOfBall) + "px";
+	document.getElementById('score1').innerHTML = score1.toString();
+	document.getElementById('score2').innerHTML = score2.toString();
+}, 1000/60);
