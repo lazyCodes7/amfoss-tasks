@@ -23,12 +23,23 @@ func main() {
 	client := twitter.NewClient(httpClient)
 	f, err:= os.Create("test.txt")
 
-	params := &twitter.FollowerListParams{ScreenName: *s}
+	params := &twitter.FollowerListParams{ScreenName: *s , Count:200 }
 	followers, resp, err:= client.Followers.List(params)
-	for _, value:= range followers.Users{
+	fmt.Println(resp , err)
+	f.WriteString("UserName:")
+	f.WriteString(use)
+	f.WriteString("\n")
+	f.WriteString("Followers :" + *s)
+	for _,users:= range followers.Users{
+		f.WriteString("\n" + users.ScreenName)
 		count++
 
 	}
-	
+	f.WriteString("\n")
+	f.WriteString(fmt.Sprintf("No of followers %d\n", count))
+	f.WriteString("\n")
+	f.WriteString(fmt.Sprintf("No of followers either 200 or more than 200"))
+	f.WriteString("\n")
+	f.WriteString(fmt.Sprintf("Maximum Limit that can be shown is 200"))
 	f.Close()
 }
