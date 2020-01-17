@@ -1,8 +1,6 @@
 # amfoss-tasks
 
-
-
-# Set Of Tasks.
+*Set Of Tasks*
 # Task0
 # Ubuntu Installation
 ## I successfully installed Ubuntu on first try and wrote a blog on the same.
