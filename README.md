@@ -2,7 +2,7 @@
 ### Set of tasks ###
 |No | Tasks Done   
 | --|:---------------------------------------------------------------------------:|
-| 1 | [task-0](https://github.com/Dazedtiara6667/amfoss-tasks/blob/master/task-0) | 
+| 1 | [task-0](https://github.com/Dazedtiara6667/amfoss-tasks/blob/master/task-0.md) | 
 | 2 | [task-1](https://github.com/Dazedtiara6667/amfoss-tasks/tree/master/task-1) |                                             
 | 3 | [task-2](https://github.com/Dazedtiara6667/amfoss-tasks/blob/master/task-2) | 
 | 4 | [task-3](https://github.com/Dazedtiara6667/amfoss-tasks/blob/master/task-3) |
