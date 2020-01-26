@@ -16,3 +16,12 @@
 |12 | [task-12](https://github.com/Dazedtiara6667/amfoss-tasks/blob/master/task-12)| 
 |13 | [task-13](https://github.com/Dazedtiara6667/amfoss-tasks/blob/master/task-13)| 
 |14 | [task-14](https://github.com/Dazedtiara6667/amfoss-tasks/blob/master/task-14)| 
+
+
+### Link For Websites ###
+#### task-5 ####
+[Get It Using JavaScript](https://dazedtiara6667.github.io/fetchpro/)
+#### task-9 ####
+[Personal Website](https://dazedtiara6667.github.io/web.github.io/)
+#### task-11 ####
+[Ping Pong Game](https://dazedtiara6667.github.io/pingpong.github.io/)
