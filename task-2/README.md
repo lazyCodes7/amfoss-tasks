@@ -1,4 +1,4 @@
-# Task2 #
+# task-2 #
 ### Solving codeforces and hackerrank problems. ###
 #### HackerRank: ####
 [compare-the-triplets](https://www.hackerrank.com/challenges/compare-the-triplets/problem)
