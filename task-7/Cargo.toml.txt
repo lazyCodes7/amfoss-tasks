@@ -1,0 +1,11 @@
+[package]
+name = "email"
+version = "0.1.0"
+authors = ["dazedtiara6667"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+regex = "0.2"
