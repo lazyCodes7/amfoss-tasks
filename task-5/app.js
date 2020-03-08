@@ -5,8 +5,8 @@ const unContainer = document.querySelector(".main__profile-username");
 const bioContainer = document.querySelector(".main__profile-bio");
 const avatarcontainer = document.querySelector(".main__profile-avatar");
 
-const client_id = "5d3a4c60b95fc344f6bf";
-const client_secret = "577909e26520c964296d5030ae55881c42f5d04c";
+const client_id = "client_id";
+const client_secret = "client_secret";
 
 const fetchUsers = async (user) => {
 const api_call = await fetch(`https://api.github.com/users/${user}?client_id=${client_id}&client_secret=${client_secret}`);
